@@ -4,13 +4,10 @@ from bitcoin.core.script import CScript, OP_CHECKMULTISIG
 from bitcoin.wallet import CBitcoinSecret
 import secrets
 
-def create_redeem_script(private_keys: List[CBitcoinSecret]):
-    # Create a list of public keys from the private keys
-    pub_keys = [key.pub for key in private_keys]
-    
+def create_redeem_script(required_signatures: int, pub_keys):
+
     # Determine the required number of signatures (M)
     num_keys = len(pub_keys)
-    required_signatures = num_keys // 2 + 1  # Example: 2 of 3 multisig
     
     # Create the redeem script dynamically
     redeem_script = CScript([required_signatures] + pub_keys + [num_keys, OP_CHECKMULTISIG])
